@@ -33,7 +33,6 @@ def limpar_tela():
     todos_valores = ""
     valor_texto.set("0")
 
-
 b_1 = Button(frame_quadros, command=limpar_tela, text="C", width=11, height=2, bg=co4, fg=co1,
              font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
 b_1.place(x=0, y=0)
