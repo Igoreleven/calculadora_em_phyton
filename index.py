@@ -6,8 +6,6 @@ co2 = "#38576b"
 co3 = "#ECEFF1"
 co4 = '#fc9303'
 
-# "#FFAB40"
-
 fundo = "#3b3b3b"
 
 janela = Tk()
@@ -25,7 +23,8 @@ frame_quadros.grid(row=2, column=0, sticky=NW)
 
 valor_texto = StringVar()
 
-app_tela = Label(frame_tela,textvariable=valor_texto, width=16,height=2, padx=7, relief="flat", anchor="e",bd=0, justify=RIGHT, font=('Ivy 18 '), bg='#37474F', fg=co1)
+app_tela = Label(frame_tela, textvariable=valor_texto, width=16, height=2, padx=7, relief="flat", anchor="e", bd=0,
+                 justify=RIGHT, font=('Ivy 18 '), bg='#37474F', fg=co1)
 app_tela.place(x=0, y=0)
 
 
@@ -35,8 +34,8 @@ def limpar_tela():
     valor_texto.set("0")
 
 
-
-b_1 = Button(frame_quadros,command = limpar_tela, text="C", width=11, height=2, bg=co4, fg=co1,font=('Ivy 13 bold'),relief=RAISED, overrelief=RIDGE)
+b_1 = Button(frame_quadros, command=limpar_tela, text="C", width=11, height=2, bg=co4, fg=co1,
+             font=('Ivy 13 bold'), relief=RAISED, overrelief=RIDGE)
 b_1.place(x=0, y=0)
 b_2 = Button(frame_quadros,command = lambda: entrar_valor('%'), text="%", width=5, height=2, bg=co4, fg=co1,font=('Ivy 13 bold'),relief=RAISED, overrelief=RIDGE)
 b_2.place(x=118, y=0)
@@ -66,29 +65,40 @@ b_14 = Button(frame_quadros,command = lambda: entrar_valor('3'), text="3", width
 b_14.place(x=118, y=156)
 b_15 = Button(frame_quadros,command = lambda: entrar_valor('+'), text="+", width=5, height=2, bg=co4, fg=co1,font=('Ivy 13 bold'),relief=RAISED, overrelief=RIDGE)
 b_15.place(x=177, y=156)
-b_16 = Button(frame_quadros,command = lambda: entrar_valor('0'), text="0", width=11, height=2, bg=co3, fg=fundo,font=('Ivy 13 bold'),relief=RAISED, overrelief=RIDGE)
+b_16 = Button(frame_quadros, text="0", width=11, height=2, bg=co3, fg=fundo, font=('Ivy 13 bold'), relief=RAISED,
+              overrelief=RIDGE)
 b_16.place(x=0, y=208)
 b_17 = Button(frame_quadros,command = lambda: entrar_valor('.'), text=".", width=5, height=2, bg=co3, fg=fundo,font=('Ivy 13 bold'),relief=RAISED, overrelief=RIDGE)
 b_17.place(x=118, y=208)
 b_18 = Button(frame_quadros,command = lambda: resultado(''), text="=", width=5, height=2, bg=co4, fg=co1,font=('Ivy 13 bold'),relief=RAISED, overrelief=RIDGE)
 b_18.place(x=177, y=208)
 
+for i in range(10):
+    janela.bind(str(i), lambda event, num=i: entrar_valor(str(num)))
+
+janela.bind(".", lambda event: entrar_valor("."))
+janela.bind("<Return>", lambda event: resultado(''))
+janela.bind("<Delete>", lambda event: limpar_tela())
+janela.bind("+", lambda event: entrar_valor("+"))
+janela.bind("-", lambda event: entrar_valor("-"))
+janela.bind("*", lambda event: entrar_valor("*"))
+janela.bind("/", lambda event: entrar_valor("/"))
+
 todos_valores = ''
 
-print(todos_valores)
 
-
-def entrar_valor(event):
+def entrar_valor(tecla):
     global todos_valores
-    todos_valores = todos_valores + str(event)
-    resultado = eval('9/9')
+    todos_valores = todos_valores + tecla
     valor_texto.set(todos_valores)
+
 
 def resultado(event):
     global todos_valores
-    resultado = eval(todos_valores)
-    valor_texto.set(str(resultado)) 
-
-#tamo junto
+    try:
+        resultado = eval(todos_valores)
+        valor_texto.set(str(resultado))
+    except Exception as e:
+        valor_texto.set("Erro")
 
 janela.mainloop()
